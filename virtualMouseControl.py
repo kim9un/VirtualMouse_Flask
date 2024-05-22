@@ -5,12 +5,13 @@
 
 import cv2
 import mediapipe as mp
-import numpy as np
 import sys
 import pyautogui as pg
 import os
 import datetime
 from keras.models import load_model
+import time
+import numpy as np
 
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(max_num_hands=1)
@@ -210,37 +211,7 @@ def gen():
                                 pg.scroll(-20)
                             elif folded ==-1:
                                 pg.scroll(20)
-                        
-                        
-                        #action 7: screenshot
-                        elif label[index] == "screenshot" and fingers[2] ==1 and fingers[3] ==1 and fingers[4] ==1:
-                            folded2=False
-                            global SStime, Snumber
-                            
-                            for id in range(2,4): #finger 2-5
-                                if landmarkList[tidId[id]][2] > landmarkList[tidId[id]-1][2]: #3 finger folded
-                                    
-                                    folded2 = True
-                                    
-                                else:
-                                    folded2 = False
-                                    SStime=0
-                            # print(folded2)
-                            # sys.stdout.flush()        
-                            
-                            if SStime == 0 and folded2==True:
-                                screenshot=pg.screenshot()
-                                filepath =os.path.dirname(os.path.abspath(__file__))
-                                #print(filepath+"\screenshots\screenshot" + currentTime +".jpg")
-                                screenshot.save(filepath+"\screenshots\screenshot" + currentTime +" (" +str(Snumber) +")"+".jpg")
-                                #sys.stdout.flush()
-                                cv2.putText(frame, 'captured',(20,40),cv2.FONT_HERSHEY_DUPLEX,1,(0,0,255),2)
-                                SStime = 1
-                                Snumber+=1
-                            
-                            if SStime == 1:
-                                cv2.putText(frame, 'captured',(20,40),cv2.FONT_HERSHEY_DUPLEX,1,(0,0,255),2)
-                                  
+
                 
             else:
                 startAction = False
@@ -251,6 +222,6 @@ def gen():
             frame = jpeg.tobytes()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
-    cap.release()  
-    
- 
+    cap.release()
+
+

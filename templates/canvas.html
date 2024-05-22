@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Paint Application</title>
+  </head>
+  <body>
+    <h1>Paint Application</h1>
+    <div>
+      <h2>Webcam Feed</h2>
+      <img src="{{ url_for('webcam_feed_route') }}">
+    </div>
+    <div>
+      <h2>Canvas Feed</h2>
+      <img src="{{ url_for('canvas_feed_route') }}">
+    </div>
+    <div>
+      <button onclick="saveCanvas()">Save Canvas</button>
+    </div>
+    <script>
+      function saveCanvas() {
+        fetch('/save_canvas', {
+          method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error('Error:', error));
+      }
+    </script>
+  </body>
+</html>
